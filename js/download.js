@@ -1,3 +1,17 @@
+function updateScroll() {
+    const container = document.getElementById("box-container")
+    if (container.scrollHeight > container.clientHeight) {
+        container.classList.remove("center")
+        container.classList.add("scroll")
+    } else {
+        container.classList.add("center")
+        container.classList.remove("scroll")
+    }
+}
+
+window.addEventListener("resize", updateScroll);
+
+
 let source = "";
 
 window.addEventListener('load', async () => {
@@ -58,6 +72,8 @@ window.addEventListener('load', async () => {
 
         document.getElementById("box-container").appendChild(boxDiv);
     }
+
+    updateScroll()
 });
 
 function share() {
