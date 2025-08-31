@@ -32,7 +32,7 @@ window.addEventListener('load', async () => {
 
   const gridSecondary = document.getElementById("button-grid-secondary");
 
-  const codeSnippetsButton = createArchiveButton("Code snippets", "Coming soon!", "#", "sources", "icons/code.webp");
+  const codeSnippetsButton = createArchiveButton("Code Snippets", "Coming soon!", "#", "sources", "icons/code.webp");
   const mediaButton = createArchiveButton("Media", "Coming soon!", "#", "media", "icons/media.webp");
 
   gridSecondary.appendChild(codeSnippetsButton);
