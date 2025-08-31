@@ -1,5 +1,5 @@
 .window {
-  width: min(100%, 1550px);
+  width: min(100%, 1635px);
 }
 
 .section-header {
@@ -176,6 +176,16 @@
   aspect-ratio: 1 / 1;
   margin-right: 8px;
   filter: grayscale(50%);
+}
+
+.footer {
+  text-align: left;
+  margin-left: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 12px;
+  color: #626262;
+  position: absolute;
 }
 
 .credits {
