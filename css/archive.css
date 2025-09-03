@@ -45,7 +45,7 @@
   width: calc(100%);
 }
 
-.button-grid a {
+.button-wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -57,7 +57,7 @@
   text-decoration: none;
 }
 
-.button-grid button {
+.archive-button {
   position: relative;
 
   display: flex;
@@ -81,6 +81,14 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
+.archive-button:hover {
+  background-color: #333333;
+}
+
+.archive-button.center {
+  justify-content: center;
+}
+
 .button-background {
   position: absolute;
   top: 0;
@@ -90,6 +98,10 @@
 
   z-index: 2;
   filter: opacity(0.05);
+}
+
+.button-background.wonderland {
+  background: linear-gradient(45deg, #2193b0, #ba6ded);
 }
 
 .button-background.sources {
@@ -120,16 +132,16 @@
   background: linear-gradient(45deg, rgb(115, 20, 224), rgb(183, 70, 205));
 }
 
-.button-grid button:hover {
-  background-color: #333333;
-}
-
 .button-text {
   display: flex;
   flex-direction: column;
   text-align: left;
   text-wrap: nowrap;
   overflow: hidden;
+}
+
+.archive-button.center .button-text {
+  text-align: center;
 }
 
 .button-text .label-main {
@@ -188,15 +200,51 @@
   position: absolute;
 }
 
+.leaderboard-button {
+  height: 60px;
+
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  margin-bottom: 20px;
+
+  background-color: transparent;
+}
+
+.leaderboard-button-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  z-index: 2;
+  filter: opacity(0.05);
+}
+
+.leaderboard-button p {
+  font-weight: 400;
+  font-size: 17px;
+  color: #fff;
+  margin: 0;
+}
+
 .credits {
+  padding: 10px 20px;
+
+  box-sizing: border-box;
+}
+
+.credit-grid {
+  position: relative;
+
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 
   grid-gap: 20px;
-  padding: 10px 20px;
 
   box-sizing: border-box;
-
 }
 
 .credit-box {
@@ -210,7 +258,7 @@
 
 }
 
-.credit-box p {
+.credit-text {
   padding-left: 10px;
   padding-right: 10px;
   font-size: 1rem;

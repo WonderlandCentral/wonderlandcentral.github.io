@@ -65,9 +65,11 @@ window.addEventListener('load', async () => {
 function createArchiveButton(name, description, link, style, imgSrc = null, iconSrc = null) {
   const wrapper = document.createElement("a");
   wrapper.href = link;
+  wrapper.className = "button-wrapper";
 
   const element = document.createElement("button");
   element.id = "button";
+  element.className = "archive-button";
 
   const buttonText = document.createElement("div");
   buttonText.className = "button-text";
