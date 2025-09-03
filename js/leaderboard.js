@@ -31,6 +31,8 @@ function getSortKey(value) {
             return value.server || 0
         case 2:
             return value.tool || 0
+        case 3:
+            return Math.max(getLevelValue(value.client || 0, 2), getLevelValue(value.server || 0, 5), getLevelValue(value.tools || 0, 5));
     }
 }
 
@@ -39,21 +41,24 @@ function onClickSort() {
         return
 
     sort++
-    if (sort > 2)
+    if (sort > 3)
         sort = 0
     let key
     switch (sort) {
         case 0:
-            key = "Client"
+            key = "Client contributions"
             break;
         case 1:
-            key = "Server tool"
+            key = "Server tool contributions"
             break;
-        case  2:
-            key = "User & Development tool"
+        case 2:
+            key = "User & Development tool contributions"
+            break;
+        case 3:
+            key = "Level"
             break;
     }
-    document.getElementById("sort-text").innerText = `Sort by: ${key} contributions`
+    document.getElementById("sort-text").innerText = `Sort by: ${key}`
     updateLeaderboardData()
 }
 
@@ -75,6 +80,23 @@ function getEntryHtml(name, clients, server, tools) {
         `                    <o class=\"contributor-description\">Contributed clients: ${clients}, server tools: ${server}, user & development tools: ${tools}</o>\n` +
         "                </div>\n" +
         "\n" +
-        "                <p class=\"contributor-level\">5</p>\n" +
+        `                <p class=\"contributor-level\">${Math.max(getLevelValue(clients, 2), getLevelValue(server, 5), getLevelValue(tools, 5))}</p>\n` +
         "            </div>"
+}
+
+function getLevelValue(a, b) {
+    if (a === 0) return 0;
+
+    let level = 1;
+    let lower = 1;
+    let upper = b;
+
+    while (true) {
+        if (a >= lower && a <= upper) {
+            return level;
+        }
+        level++;
+        lower = upper + 1;
+        upper = b * Math.pow(2, level - 1);
+    }
 }
