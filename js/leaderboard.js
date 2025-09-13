@@ -69,20 +69,38 @@ function updateLeaderboardData() {
     const sorted = Object.entries(data).sort(([ignored, a], [ignored2, b]) => getSortKey(b) - getSortKey(a))
 
     for (const [key, value] of sorted) {
-        element.innerHTML += getEntryHtml(key, value.client || 0, value.server || 0, value.tool || 0)
+        const icon = value["icon"] == null ? undefined : `https://cdn.discordapp.com/avatars/${value["id"]}/${value["icon"]}.webp?size=100`
+        console.log(value)
+        console.log(icon)
+        element.innerHTML += getEntryHtml(key, value.client || 0, value.server || 0, value.tool || 0, icon)
     }
 }
 
-function getEntryHtml(name, clients, server, tools) {
-    return "            <div class=\"contributor-card\">\n" +
-        "                <div class=\"contributor-card-text\">\n" +
-        `                    <p class=\"contributor-title\">${name}</p>\n` +
-        `                    <o class=\"contributor-description\">Contributed clients: ${clients}, server tools: ${server}, user & development tools: ${tools}</o>\n` +
-        "                </div>\n" +
-        "\n" +
-        `                <p class=\"contributor-level\">${Math.max(getLevelValue(clients, 2), getLevelValue(server, 5), getLevelValue(tools, 5))}</p>\n` +
-        "            </div>"
+function getEntryHtml(name, clients, server, tools, src) {
+    const iconHtml = src
+        ? `<div class='contributor-icon-container'>
+                <img class='contributor-icon' alt='contributor-icon' src='${src}'>
+           </div>`
+        : `<div class="contributor-card-margin"></div>`;
+
+    return `<div class="contributor-card">
+                ${iconHtml}
+                <div class="contributor-card-text">
+                    <p class="contributor-title">${name}</p>
+                    <o class="contributor-description">
+                        Contributed clients: ${clients}, server tools: ${server}, user & development tools: ${tools}
+                    </o>
+                </div>
+                <p class="contributor-level">
+                    ${Math.max(
+        getLevelValue(clients, 2),
+        getLevelValue(server, 5),
+        getLevelValue(tools, 5)
+    )}
+                </p>
+            </div>`;
 }
+
 
 function getLevelValue(a, b) {
     if (a === 0) return 0;

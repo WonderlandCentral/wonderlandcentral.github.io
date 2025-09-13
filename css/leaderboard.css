@@ -47,6 +47,25 @@
     margin: 10px;
 }
 
+.contributor-card-margin {
+    margin: 0 0 0 5px;
+}
+
+.contributor-icon-container {
+    height: 50px;
+    min-width: 50px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 0 0 5px;
+}
+
+.contributor-icon {
+    height: 50px;
+    min-width: 50px;
+    object-fit: cover;
+}
+
 .contributor-list {
     max-height: 480px;
     overflow-y: auto;
@@ -85,7 +104,7 @@
 .contributor-card-text {
     flex-grow: 1;
 
-    margin: 0 0 0 15px;
+    margin: 0 0 0 5px;
     text-align: left;
 }
 
