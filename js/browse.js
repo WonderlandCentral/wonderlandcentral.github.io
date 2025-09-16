@@ -20,7 +20,7 @@ function prepareData(type) {
             break;
         case 'pb':
             name = "Server tool Binaries";
-            secondary = "https://gist.githubusercontent.com/ayaxperson/0e2e2e54558809fbbae3f2c9f1463c9b/raw/b1ce677e6be94d7e901d7a9c5104128ec1827d7a/gistfile1.txt";
+            secondary = "https://gist.githubusercontent.com/ayaxperson/fa5d87b3a7cd749b4335c0204ee501c9/raw/857fea7242ba775772057a2ba4b29e30913de7fe/gistfile1.txt";
             break;
         case 'ps':
             name = "Server tool Sources";
@@ -53,14 +53,13 @@ function prepareData(type) {
             return response.json();
         }).then(data => {
         for (let client of data) {
-            const fileName = client["name"];
-            const timestamp = client["lastModified"];
+            const name = client["name"];
 
             const link = isSource()
-                ? `https://wonderland.sigmaclient.cloud/v2/download.php?type=${currentType}&file=${encodeURIComponent(fileName)}`
-                : `https://wonderland.sigmaclient.cloud/v2/genlink.php?type=${currentType}&folder=${encodeURIComponent(fileName)}`;
+                ? `https://wonderland.sigmaclient.cloud/v2/download.php?type=${currentType}&file=${encodeURIComponent(name)}`
+                : `https://wonderland.sigmaclient.cloud/v2/genlink.php?type=${currentType}&folder=${encodeURIComponent(name)}`;
 
-            entries.set(fileName, { link, timestamp });
+            entries.set(client, link);
         }
         writeDataToUi();
         })
@@ -74,14 +73,10 @@ function prepareData(type) {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                return response.text();
+                return response.json();
             }).then(data => {
-            for (let line of data.split(/\r?\n/)) {
-                const splitLine = line.split(":::");
-                const name = splitLine[0];
-                const link = splitLine[1];
-
-                entries.set(name, { link, timestamp: 0 });
+            for (let client of data) {
+                entries.set(client, client["url"]);
             }
             writeDataToUi();
         })
@@ -102,32 +97,29 @@ function writeDataToUi() {
     entryGrid.innerHTML = "";
 
     for (const [key, value] of sortMap(entries)) {
-        const trimmedKey = key.trim();
-        if (!trimmedKey) continue;
-
-        const button = getButton(trimmedKey, trimmedKey, value.link);
+        const button = getButton(key, value.link);
         entryGrid.appendChild(button);
-        buttonMap.set(trimmedKey, button);
+        buttonMap.set(key.name.trim(), button);
     }
 }
 
 function sortMap(map) {
     return new Map([...map.entries()].sort((a, b) => {
         if (sortByTime) {
-            return (b[1].timestamp || 0) - (a[1].timestamp || 0); // Descending time
+            return (b[0]["lastModified"] || 0) - (a[0]["lastModified"] || 0); // Descending time
         } else {
-            return a[0].localeCompare(b[0]); // Alphabetical
+            return a[0]["name"].localeCompare(b[0]["name"]); // Alphabetical
         }
     }));
 }
 
-function getButton(name, entryName, link) {
+function getButton(client, link) {
     if (isSource()) {
         const gridEntry = document.createElement("div");
         gridEntry.className = "grid-entry";
 
         const span = document.createElement("span");
-        span.innerText = name;
+        span.innerText = client["name"].trim();
         gridEntry.appendChild(span);
 
         if (isSource()) {
@@ -174,14 +166,54 @@ function getButton(name, entryName, link) {
         const gridEntry = document.createElement("div");
         gridEntry.className = "grid-entry";
 
+        const clientText = document.createElement("div");
+        clientText.className = "client-text";
+
         const span = document.createElement("span");
-        span.innerText = name;
-        gridEntry.appendChild(span);
+        span.innerText = client["name"].trim();
+        span.className = "client-name";
+        clientText.appendChild(span);
+
+        const tags = document.createElement("div")
+        tags.className = "client-tags";
+
+        if (client["infected"] === "yes")
+            tags.appendChild(createTag("Safe: X", "bad"));
+        else if (client["infected"] === "no")
+            tags.appendChild(createTag("Safe: ✔", "good"));
+        else
+            tags.appendChild(createTag("Safe: ?", "idk"));
+
+        if (client["runnable"] === "yes")
+            tags.appendChild(createTag("Runnable: ✔", "good"));
+        else if (client["runnable"] === "no")
+            tags.appendChild(createTag("Runnable: X", "bad"));
+        else
+            tags.appendChild(createTag("Runnable: ?", "idk"));
+
+        if (client["release"] === "free")
+            tags.appendChild(createTag("Free", "good"));
+        else if (client["release"] === "crack")
+            tags.appendChild(createTag("Crack", "good"));
+        else if (client["release"] === "leak")
+            tags.appendChild(createTag("Leak", "bad"));
+
+        clientText.appendChild(tags);
+
+        gridEntry.appendChild(clientText);
 
         wrapper.append(gridEntry);
 
         return wrapper;
     }
+}
+
+function createTag(name, type) {
+    const tag = document.createElement("h");
+    tag.innerText = name;
+    tag.classList.add("client-tag");
+    tag.classList.add(`tag-${type}`);
+    return tag;
 }
 
 const searchBar = document.getElementById("search-bar");

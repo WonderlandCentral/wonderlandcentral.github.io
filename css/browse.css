@@ -17,8 +17,8 @@ body {
 
 .button-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    grid-auto-rows: 60px;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    grid-auto-rows: minmax(63px, 1fr);
     gap: 10px;
     max-height: 480px;
     overflow-y: auto;
@@ -61,9 +61,8 @@ body {
 }
 
 .grid-entry {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: block;
+    justify-content: left;
     align-items: center;
 
     border: 1px solid rgb(47, 47, 47);
@@ -76,7 +75,9 @@ body {
     max-height: 100%;
     overflow: hidden;
 
-    text-align: center;
+    margin-bottom: 10px;
+
+    text-align: left;
 
     font-family: "JetBrains Mono", monospace;
     font-size: 0.75rem;
@@ -90,20 +91,60 @@ body {
     background: rgba(40, 40, 40, 0.36);
 }
 
-.grid-entry > span {
-    padding-left: 8px;
-    padding-right: 8px;
+.client-text {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.client-name {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.client-tags {
+    display: inline;
+    flex-grow: 1;
+    align-content: center;
+}
+
+.tag-good {
+    color: #00a415;
+    border-color: #00a415 !important;
+}
+
+.tag-bad {
+    color: #cb0000;
+    border-color: #cb0000 !important;
+}
+
+.tag-idk {
+    color: #a48300;
+    border-color: #a48300 !important;
+}
+
+.client-text > span {
     text-decoration: none;
 
-    flex-grow: 1;
-
     display: flex;
-    justify-content: center;
     align-items: center;
     width: 100%;
     word-wrap: anywhere;
 
     box-sizing: border-box;
+}
+
+.client-tags {
+    align-items: center;
+
+    display: inline-block;
+}
+
+.client-tag {
+    margin-left: 5px;
+    border-radius: 8px;
+    border: 1px solid white;
+    padding: 2px 3px;
 }
 
 .grid-entry-sub-button-container {
