@@ -25,7 +25,7 @@ window.addEventListener('load', async () => {
     const filesDecoded = JSON.parse(atob(files));
 
     for (const fileObject of filesDecoded) {
-        if (!fileObject.url.startsWith('download.php'))
+        if (!fileObject.url.startsWith('download.php') && !fileObject.url.startsWith('v2/download.php'))
             return;
 
         const boxDiv = document.createElement('div');

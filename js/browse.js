@@ -57,8 +57,8 @@ function prepareData(type) {
             const timestamp = client["lastModified"];
 
             const link = isSource()
-                ? `https://wonderland.sigmaclient.cloud/download.php?type=${currentType}&folder=&file=${encodeURIComponent(fileName)}`
-                : `https://wonderland.sigmaclient.cloud/get.php?type=${currentType}&folder=${encodeURIComponent(fileName)}`;
+                ? `https://wonderland.sigmaclient.cloud/v2/download.php?type=${currentType}&file=${encodeURIComponent(fileName)}`
+                : `https://wonderland.sigmaclient.cloud/v2/genlink.php?type=${currentType}&folder=${encodeURIComponent(fileName)}`;
 
             entries.set(fileName, { link, timestamp });
         }
