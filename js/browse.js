@@ -45,17 +45,16 @@ function prepareData(type) {
             throw "Unknown type " + type;
     }
 
-    fetch('https://wonderland.sigmaclient.cloud/getlist.php?type=' + type)
+    fetch('https://wonderland.sigmaclient.cloud/v2/list.php?type=' + type)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            return response.text();
+            return response.json();
         }).then(data => {
-        for (let name of data.split(/\r?\n/)) {
-            const split = name.split("::");
-            const fileName = split[0];
-            const timestamp = parseInt(split[1] || "0"); // Ensure it's a number
+        for (let client of data) {
+            const fileName = client["name"];
+            const timestamp = client["lastModified"];
 
             const link = isSource()
                 ? `https://wonderland.sigmaclient.cloud/download.php?type=${currentType}&folder=&file=${encodeURIComponent(fileName)}`
