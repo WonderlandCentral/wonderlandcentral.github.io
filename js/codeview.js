@@ -75,7 +75,7 @@ window.addEventListener('load', async () => {
 });
 
 function isValidZipUrl(url) {
-    return (url.startsWith("https://wonderland.sigmaclient.cloud/download.php?type=") || url.startsWith("https://files.catbox.moe/")) && url.endsWith(".zip");
+    return (url.startsWith("https://wonderland.sigmaclient.cloud/download.php?type=") || url.startsWith("https://wonderland.sigmaclient.cloud/v2/download.php?type=") || url.startsWith("https://files.catbox.moe/")) && url.endsWith(".zip");
 }
 
 async function fetchAndLoadZip(url) {
